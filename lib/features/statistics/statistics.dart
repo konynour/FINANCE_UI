@@ -1,269 +1,190 @@
-import 'package:finance_ui/core/styleling/wiget/spacing_widgets.dart';
+import 'package:finance_ui/core/styleling/app_corlors.dart';
+import 'package:finance_ui/core/styleling/app_styles.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class StatisticsScreen extends StatefulWidget {
-  StatisticsScreen({super.key});
+  final String description;
+  final String title;
+  final IconData iconDate2;
 
-  final Color leftBarColor = const Color(0xff617AFD);
-  final Color rightBarColor = const Color(0xff303A6E);
+  const StatisticsScreen({
+    super.key,
+    required this.description,
+    required this.title,
+    required this.iconDate2,
+  });
 
   @override
   State<StatisticsScreen> createState() => _StatisticsScreenState();
 }
 
 class _StatisticsScreenState extends State<StatisticsScreen> {
-  final double width = 12.w;
-
-  late List<BarChartGroupData> rawBarGroups;
-  late List<BarChartGroupData> showingBarGroups;
-
-  int touchedGroupIndex = -1;
-
-  @override
-  void initState() {
-    super.initState();
-
-    final barGroups = [
-      makeGroupData(0, 5, 12),
-      makeGroupData(1, 16, 12),
-      makeGroupData(2, 18, 5),
-      makeGroupData(3, 20, 16),
-      makeGroupData(4, 17, 6),
-      makeGroupData(5, 19, 1),
-      makeGroupData(6, 10, 1),
-    ];
-
-    rawBarGroups = barGroups;
-    showingBarGroups = rawBarGroups;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.w),
-      child: Column(
-        children: [
-          heightspace(18),
-          // ✅ Header Row
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const BackButton(),
-              Text(
-                "All Cards",
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                // Back Button on the left
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: const BackButton(),
                 ),
-              ),
-              Container(
-                width: 48.w,
-                height: 48.w,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: const Color(0xffE3E9ED),
-                    width: 1,
-                  ),
+
+                // Title in the center
+                Center(
+                  child: Text("Reload", style: AppStyles.black18BoldStyle),
                 ),
-                child: Icon(
-                  Icons.more_horiz,
-                  size: 24.sp,
-                  color: const Color(0xff000000),
-                ),
-              ),
-            ],
-          ),
-          heightspace(20),
-          AspectRatio(
-            aspectRatio: 1,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      makeTransactionsIcon(),
-                      const SizedBox(width: 38),
-                      const Text(
-                        'Transactions',
-                        style: TextStyle(color: Colors.white, fontSize: 22),
-                      ),
-                      const SizedBox(width: 4),
-                      const Text(
-                        'state',
-                        style: TextStyle(
-                          color: Color(0xff77839a),
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 38),
-                  Expanded(
-                    child: BarChart(
-                      BarChartData(
-                        maxY: 20,
-                        barTouchData: BarTouchData(
-                          touchTooltipData: BarTouchTooltipData(
-                            getTooltipColor: (group) => Colors.grey,
-                            getTooltipItem: (a, b, c, d) => null,
-                          ),
-                          touchCallback: (FlTouchEvent event, response) {
-                            if (response == null || response.spot == null) {
-                              setState(() {
-                                touchedGroupIndex = -1;
-                                showingBarGroups = List.of(rawBarGroups);
-                              });
-                              return;
-                            }
-
-                            touchedGroupIndex =
-                                response.spot!.touchedBarGroupIndex;
-
-                            setState(() {
-                              if (!event.isInterestedForInteractions) {
-                                touchedGroupIndex = -1;
-                                showingBarGroups = List.of(rawBarGroups);
-                                return;
-                              }
-
-                              showingBarGroups = List.of(rawBarGroups);
-                            });
-                          },
-                        ),
-                        titlesData: FlTitlesData(
-                          show: true,
-                          rightTitles: const AxisTitles(
-                            sideTitles: SideTitles(showTitles: false),
-                          ),
-                          topTitles: const AxisTitles(
-                            sideTitles: SideTitles(showTitles: false),
-                          ),
-                          bottomTitles: AxisTitles(
-                            sideTitles: SideTitles(
-                              showTitles: true,
-                              getTitlesWidget: bottomTitles,
-                              reservedSize: 42,
-                            ),
-                          ),
-                          leftTitles: AxisTitles(
-                            sideTitles: SideTitles(
-                              showTitles: true,
-                              reservedSize: 28,
-                              interval: 1,
-                              getTitlesWidget: leftTitles,
-                            ),
-                          ),
-                        ),
-                        borderData: FlBorderData(show: false),
-                        barGroups: showingBarGroups,
-                        gridData: const FlGridData(show: true),
+                SizedBox(height: 20), // More icon on the right
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    width: 48.w,
+                    height: 48.w,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: const Color(0xffE3E9ED),
+                        width: 1,
                       ),
                     ),
+                    child: Icon(
+                      Icons.more_horiz,
+                      size: 24.sp,
+                      color: Color(0xff000000),
+                    ),
                   ),
-                  const SizedBox(height: 12),
-                ],
+                ),
+              ],
+            ),
+            SizedBox(height: 50.h),
+            SizedBox(
+              height: 236.h,
+              width: double.infinity,
+              child: BarChart(
+                BarChartData(
+                  titlesData: titlesData,
+                  borderData: borderData,
+                  barGroups: barGroups,
+                  gridData: const FlGridData(show: true),
+                  alignment: BarChartAlignment.spaceAround,
+                  maxY: 8,
+                ),
               ),
             ),
-          ),
-        ],
+            SizedBox(height: 20),
+            // Add your other widgets here if needed
+          ],
+        ),
       ),
     );
   }
 
-  Widget leftTitles(double value, TitleMeta meta) {
-    const style = TextStyle(
-      color: Color(0xff7589a2),
+  Widget getTitles(double value, TitleMeta meta) {
+    final style = TextStyle(
+      color: Colors.grey,
       fontWeight: FontWeight.bold,
-      fontSize: 14,
+      fontSize: 14.sp,
     );
-
     String text;
-    if (value == 0) {
-      text = '1K';
-    } else if (value == 5) {
-      text = '2K';
-    } else if (value == 18) {
-      text = '6K';
-    } else if (value == 12) {
-      text = '8K';
-    } else {
-      return Container();
+    switch (value.toInt()) {
+      case 0:
+        text = 'Jan';
+        break;
+      case 1:
+        text = 'Feb';
+        break;
+      case 2:
+        text = 'Mar';
+        break;
+      case 3:
+        text = 'Apr';
+        break;
+      case 4:
+        text = 'May';
+        break; // Fixed typo from 'Jaun' to 'May'
+      case 5:
+        text = 'Jun';
+        break; // Fixed typo from 'July' to 'Jun'
+      case 6:
+        text = 'Jul';
+        break; // Fixed typo from 'Sn' to 'Jul'
+      default:
+        text = '';
+        break;
     }
-
     return SideTitleWidget(
+      space: 4,
       meta: meta,
-      space: 0,
       child: Text(text, style: style),
     );
   }
 
-  Widget bottomTitles(double value, TitleMeta meta) {
-    final titles = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
-
-    final Widget text = Text(
-      titles[value.toInt()],
-      style: const TextStyle(
-        color: Color(0xff7589a2),
-        fontWeight: FontWeight.bold,
-        fontSize: 14,
+  FlTitlesData get titlesData => FlTitlesData(
+    show: true,
+    bottomTitles: AxisTitles(
+      sideTitles: SideTitles(
+        showTitles: true,
+        reservedSize: 20.h,
+        interval: 1,
+        getTitlesWidget: getTitles,
       ),
-    );
+    ),
+    leftTitles: AxisTitles(
+      sideTitles: SideTitles(
+        showTitles: true,
+        interval: 2,
+        reservedSize: 28.w,
+        getTitlesWidget: (value, meta) {
+          return Text(
+            "${value.toInt()}k",
+            style: TextStyle(
+              color: Colors.grey,
+              fontWeight: FontWeight.bold,
+              fontSize: 12.sp,
+            ),
+          );
+        },
+      ),
+    ),
+    topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+    rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+  );
 
-    return SideTitleWidget(meta: meta, space: 16, child: text);
-  }
+  FlBorderData get borderData => FlBorderData(show: false);
 
-  BarChartGroupData makeGroupData(int x, double y1, double y2) {
-    return BarChartGroupData(
-      barsSpace: 4,
-      x: x,
-      barRods: [
-        BarChartRodData(
-          toY: y1,
-          color: widget.leftBarColor,
-          width: width,
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(8.r),
-            topLeft: Radius.circular(8.r),
+  List<BarChartGroupData> get barGroups => [
+    for (int i = 0; i < 7; i++) // Changed from 5 to 7 to match month count
+      BarChartGroupData(
+        x: i,
+        barsSpace: 4.w,
+        barRods: [
+          BarChartRodData(
+            toY: (i % 2 == 0) ? 4 : 6, // Varying heights for visual interest
+            color: AppCorlors.primarycolor,
+            width: 12.w,
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(8.r),
+              topLeft: Radius.circular(8.r),
+            ),
           ),
-        ),
-        BarChartRodData(
-          toY: y2,
-          color: widget.rightBarColor,
-          width: width,
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(8.r),
-            topLeft: Radius.circular(8.r),
+          BarChartRodData(
+            toY: (i % 2 == 0) ? 3 : 2,
+            color: const Color(0xff303A6E),
+            width: 12.w,
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(8.r),
+              topLeft: Radius.circular(8.r),
+            ),
           ),
-        ),
-      ],
-    );
-  }
-
-  Widget makeTransactionsIcon() {
-    const width = 4.5;
-    const space = 3.5;
-
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Container(width: width, height: 10, color: Colors.white.withOpacity(0.4)),
-        const SizedBox(width: space),
-        Container(width: width, height: 28, color: Colors.white.withOpacity(0.8)),
-        const SizedBox(width: space),
-        Container(width: width, height: 42, color: Colors.white),
-        const SizedBox(width: space),
-        Container(width: width, height: 28, color: Colors.white.withOpacity(0.8)),
-        const SizedBox(width: space),
-        Container(width: width, height: 10, color: Colors.white.withOpacity(0.4)),
-      ],
-    );
-  }
+        ],
+      ),
+  ];
 }

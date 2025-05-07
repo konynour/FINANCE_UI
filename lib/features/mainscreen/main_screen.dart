@@ -17,7 +17,12 @@ class _MainScreenState extends State<MainScreen> {
   int currentindex = 0;
   List<Widget> screen = [
     const HomeScreen(),
-     StatisticsScreen(),
+    const StatisticsScreen(
+  title: "Statistics",
+  iconDate2: Icons.bar_chart,
+  description: "Your monthly financial overview",
+),
+
     Container(
       width: double.infinity,
       height: double.infinity,
