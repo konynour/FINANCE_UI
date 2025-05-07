@@ -1,5 +1,4 @@
 import 'package:finance_ui/core/routing/app_routes.dart';
-import 'package:finance_ui/core/styleling/app_corlors.dart';
 import 'package:finance_ui/core/styleling/app_styles.dart';
 import 'package:finance_ui/core/styleling/wiget/custom_text_fleid.dart';
 import 'package:finance_ui/core/styleling/wiget/primary_button_widget.dart';
