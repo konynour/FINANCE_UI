@@ -17,14 +17,17 @@ class BackButton extends StatelessWidget {
           color: Colors.transparent,
           borderRadius: BorderRadius.circular(16.r),
 
-          border: Border.all(color: const Color(0xffE8ECFA), width: 1),
+          border: Border.all(color: const Color(0xffE3E9ED), width: 1),
         ),
         child: Center(
           child: InkWell(
             onTap: () {
               GoRouter.of(context).pop();
             },
-            child: Icon(Icons.arrow_back, color: AppCorlors.primarycolor),
+            child: Icon(
+              Icons.arrow_back_ios_new_rounded,
+              color: AppCorlors.primarycolor,
+            ),
           ),
         ),
       ),

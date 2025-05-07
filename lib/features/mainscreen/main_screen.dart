@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:finance_ui/core/styleling/app_corlors.dart';
 import 'package:finance_ui/features/Homepage/home_page_Screen.dart';
 import 'package:finance_ui/features/mycardpage/widgets/mycard_screen.dart';
+import 'package:finance_ui/features/statistics/statistics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -16,17 +17,15 @@ class _MainScreenState extends State<MainScreen> {
   int currentindex = 0;
   List<Widget> screen = [
     const HomeScreen(),
-    const MycardScreen(),
-    Container(
-      width: double.infinity,
-      height: double.infinity,
-      color: Colors.yellow,
-    ),
+     StatisticsScreen(),
     Container(
       width: double.infinity,
       height: double.infinity,
       color: Colors.blue,
     ),
+
+    const MycardScreen(),
+
     Container(
       width: double.infinity,
       height: double.infinity,
@@ -57,8 +56,8 @@ class _MainScreenState extends State<MainScreen> {
             ),
 
             const BottomNavigationBarItem(
-              icon: Icon(Icons.search, size: 30),
-              label: "Search",
+              icon: Icon(Icons.dashboard_customize, size: 30),
+              label: "Statistics",
             ),
             BottomNavigationBarItem(
               icon: Container(
