@@ -2,9 +2,8 @@ import 'package:finance_ui/core/routing/app_routes.dart';
 import 'package:finance_ui/core/styleling/app_corlors.dart';
 import 'package:finance_ui/core/styleling/app_styles.dart';
 import 'package:finance_ui/core/styleling/wiget/primary_button_widget.dart';
-
+import 'package:finance_ui/core/styleling/back_button.dart' as custom;
 import 'package:finance_ui/core/styleling/wiget/spacing_widgets.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -41,7 +40,7 @@ class _verifyOtpScreenState extends State<verifyOtpScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const heightspace(12),
-                  const BackButton(),
+                  const custom.BackButton(),
                   SizedBox(height: 28.h),
 
                   SizedBox(

@@ -7,6 +7,7 @@ import 'package:finance_ui/core/styleling/wiget/spacing_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:finance_ui/core/styleling/back_button.dart' as custom;
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -36,7 +37,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const heightspace(12),
-                const BackButton(),
+                const custom.BackButton(),
                 SizedBox(height: 28.h),
 
                 SizedBox(

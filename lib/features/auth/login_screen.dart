@@ -9,6 +9,7 @@ import 'package:finance_ui/features/auth/widgets/social_login_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:finance_ui/core/styleling/back_button.dart' as custom;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -43,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const heightspace(12),
-                  const BackButton(),
+                  const custom.BackButton(),
                   SizedBox(height: 28.h),
 
                   SizedBox(
@@ -130,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         children: [
                           TextSpan(
-                            text: " Login Now",
+                            text: " Register Now",
                             style: AppStyles.black15BoldStyle,
                           ),
                         ],

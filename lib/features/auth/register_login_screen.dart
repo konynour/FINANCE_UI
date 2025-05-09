@@ -9,6 +9,7 @@ import 'package:finance_ui/features/auth/widgets/social_login_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:finance_ui/core/styleling/back_button.dart' as custom;
 
 class RegisterLoginScreen extends StatefulWidget {
   const RegisterLoginScreen({super.key});
@@ -48,7 +49,7 @@ class _MyWidgetState extends State<RegisterLoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const heightspace(12),
-                  const BackButton(),
+                  const custom.BackButton(),
                   SizedBox(height: 28.h),
 
                   SizedBox(
@@ -87,7 +88,7 @@ class _MyWidgetState extends State<RegisterLoginScreen> {
                   CustomTextFleid(
                     controller: password,
                     hinText: "Password",
-                    
+
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "Enter your password";
@@ -104,7 +105,7 @@ class _MyWidgetState extends State<RegisterLoginScreen> {
                   CustomTextFleid(
                     controller: confirmpassword,
                     hinText: "Confirm Password",
-                   
+
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "Please confirm your password";
@@ -118,15 +119,13 @@ class _MyWidgetState extends State<RegisterLoginScreen> {
 
                   SizedBox(height: 15.h),
 
-                 
                   SizedBox(height: 30.h),
 
                   PrimaryButtonWidget(
                     buttonText: "Register",
                     onPress: () {
                       if (formkey.currentState!.validate()) {}
-                    GoRouter.of(context).pushNamed(AppRoutes.mainscreen);
-
+                      GoRouter.of(context).pushNamed(AppRoutes.mainscreen);
                     },
                   ),
                   const SizedBox(height: 35),
@@ -139,13 +138,13 @@ class _MyWidgetState extends State<RegisterLoginScreen> {
                   Center(
                     child: RichText(
                       text: TextSpan(
-                        text: "Don't have an account?",
+                        text: "Already have an account? ",
                         style: AppStyles.black15BoldStyle.copyWith(
                           color: AppCorlors.primarycolor,
                         ),
                         children: [
                           TextSpan(
-                            text: " Register Now",
+                            text: " Login Now",
                             style: AppStyles.black15BoldStyle,
                           ),
                         ],

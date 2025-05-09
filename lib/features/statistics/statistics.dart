@@ -2,6 +2,7 @@ import 'package:finance_ui/core/styleling/app_corlors.dart';
 import 'package:finance_ui/core/styleling/app_styles.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:finance_ui/core/styleling/back_button.dart' as custom;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class StatisticsScreen extends StatefulWidget {
@@ -28,20 +29,17 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       child: SingleChildScrollView(
         child: Column(
           children: [
+            // Header
             Stack(
               alignment: Alignment.center,
               children: [
-                // Back Button on the left
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: const BackButton(),
+                  child: const custom.BackButton(),
                 ),
-
-                // Title in the center
                 Center(
                   child: Text("Reload", style: AppStyles.black18BoldStyle),
                 ),
-                SizedBox(height: 20), // More icon on the right
                 Align(
                   alignment: Alignment.centerRight,
                   child: Container(
@@ -58,13 +56,69 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                     child: Icon(
                       Icons.more_horiz,
                       size: 24.sp,
-                      color: Color(0xff000000),
+                      color: const Color(0xff000000),
                     ),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 50.h),
+
+            SizedBox(height: 20.h),
+
+            // Date Range Selector
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10.w,
+                    vertical: 5.h,
+                  ),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Text(
+                    "Jan 28 - May 28, 2025",
+                    style: TextStyle(fontSize: 14.sp),
+                  ),
+                ),
+                SizedBox(width: 45.w),
+                Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 12.w,
+                    vertical: 1.h,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xffB9C4FF),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: DropdownButton<String>(
+                    value: "Monthly",
+                    items:
+                        <String>["Monthly", "Weekly", "Yearly"].map((
+                          String value,
+                        ) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(
+                              value,
+                              style: TextStyle(fontSize: 14.sp),
+                            ),
+                          );
+                        }).toList(),
+                    onChanged: (_) {},
+                    underline: const SizedBox(),
+                    icon: const Icon(Icons.arrow_drop_down),
+                    dropdownColor: const Color(0xffB9C4FF),
+                  ),
+                ),
+              ],
+            ),
+
+            SizedBox(height: 20.h),
+
+            // Bar Chart
             SizedBox(
               height: 236.h,
               width: double.infinity,
@@ -79,10 +133,85 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 20),
-            // Add your other widgets here if needed
+
+            SizedBox(height: 20.h),
+
+            GridView.count(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              crossAxisCount: 2,
+              crossAxisSpacing: 16.sp,
+              mainAxisSpacing: 8.sp,
+              childAspectRatio: 1.5,
+              children: [
+                _buildStatCard(
+                  value: "15000 EG",
+                  title: "Income",
+                  icon: Icons.trending_up,
+                ),
+                _buildStatCard(
+                  value: "35000 EG",
+                  title: "Outcome",
+                  icon: Icons.trending_down,
+                ),
+              ],
+            ),
+
+            SizedBox(height: 20.h),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildStatCard({
+    required String title,
+    required String value,
+    required IconData icon,
+  }) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 10.h),
+      decoration: BoxDecoration(
+        color: const Color(0xffECF1F6),
+        borderRadius: BorderRadius.circular(16.r),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 40.w,
+            height: 40.w,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white,
+            ),
+            child: Icon(icon, color: AppCorlors.primarycolor, size: 20.sp),
+          ),
+          SizedBox(width: 10.w),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(height: 2.h),
+                Text(
+                  value,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -109,13 +238,13 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
         break;
       case 4:
         text = 'May';
-        break; // Fixed typo from 'Jaun' to 'May'
+        break;
       case 5:
         text = 'Jun';
-        break; // Fixed typo from 'July' to 'Jun'
+        break;
       case 6:
         text = 'Jul';
-        break; // Fixed typo from 'Sn' to 'Jul'
+        break;
       default:
         text = '';
         break;
@@ -161,13 +290,13 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   FlBorderData get borderData => FlBorderData(show: false);
 
   List<BarChartGroupData> get barGroups => [
-    for (int i = 0; i < 7; i++) // Changed from 5 to 7 to match month count
+    for (int i = 0; i < 7; i++)
       BarChartGroupData(
         x: i,
         barsSpace: 4.w,
         barRods: [
           BarChartRodData(
-            toY: (i % 2 == 0) ? 4 : 6, // Varying heights for visual interest
+            toY: (i % 2 == 0) ? 4 : 6,
             color: AppCorlors.primarycolor,
             width: 12.w,
             borderRadius: BorderRadius.only(
